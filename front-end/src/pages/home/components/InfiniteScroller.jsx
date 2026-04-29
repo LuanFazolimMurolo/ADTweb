@@ -92,6 +92,9 @@ export default function Ticker({ coins }) {
       el.removeEventListener("mouseleave", handleLeave)
     }
   }, [renderData])
+  
+
+  const formattedChange = coin.change.startsWith("-") ? coin.change : `+${coin.change}`
 
   // 🔥 atualização de dados
   useEffect(() => {
@@ -148,7 +151,7 @@ export default function Ticker({ coins }) {
                   coin.change.includes("-") ? "down" : "up"
                 }`}
               >
-                {coin.change}
+                {formattedChange}
               </span>
             </div>
           )
