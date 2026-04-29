@@ -94,7 +94,6 @@ export default function Ticker({ coins }) {
   }, [renderData])
   
 
-  const formattedChange = coin.change.startsWith("-") ? coin.change : `+${coin.change}`
 
   // 🔥 atualização de dados
   useEffect(() => {
@@ -120,6 +119,8 @@ export default function Ticker({ coins }) {
 
           if (changed) {
           }
+          const formattedChange = coin.change.startsWith("-") ? coin.change : `+${coin.change}`
+
 
           return (
             <div
