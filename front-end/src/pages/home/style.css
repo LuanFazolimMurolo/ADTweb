@@ -1,0 +1,66 @@
+/* container principal */
+.container {
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+
+  scroll-snap-type: y mandatory;
+  scrollbar-color: transparent transparent; /* Esconde a barra de rolagem */
+}
+
+
+
+/* cada "tela" */
+.page {
+  height: 100vh;
+
+  scroll-snap-align: start;
+
+  display: flex;
+ 
+  font-size: 40px;
+}
+.hero-page {
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url("components/img/green_stars.png");
+    height: 100vh;
+
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    ;
+    }
+  
+
+.hero{
+        font-weight: bold;
+        color: #ffffff;
+        opacity: 1;
+    
+        & h1{
+            font-size: 100px;
+            text-shadow:
+            -5px -5px 0 black, /* Sombra superior esquerda */
+            5px -5px 0 black, /* Sombra superior direita */
+            -5px  5px 0 black, /* Sombra inferior esquerda */
+            5px  5px 0 black;  /* Sombra inferior direita */
+            
+        
+        }
+        & p{
+            font-size: 20px;
+            color: #ffffff;
+        }
+  }
+
+
+
+.ticker-section {
+    width: 100%;
+  }
+
