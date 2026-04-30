@@ -43,15 +43,15 @@
         opacity: 1;
     
         & h1{
+          
             font-size: 100px;
             text-shadow:
             -5px -5px 0 black, /* Sombra superior esquerda */
             5px -5px 0 black, /* Sombra superior direita */
             -5px  5px 0 black, /* Sombra inferior esquerda */
             5px  5px 0 black;  /* Sombra inferior direita */
-            
-        
-        }
+          }
+
         & p{
             font-size: 20px;
             color: #ffffff;

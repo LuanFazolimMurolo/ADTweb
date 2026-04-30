@@ -97,7 +97,7 @@ export default function Ticker({ coins }) {
 
   // 🔥 atualização de dados
   useEffect(() => {
-
+    console.log("COINS -- ",coins)
     if (!coins.length) {
       console.log("❌ coins vazio")
       return
@@ -105,58 +105,69 @@ export default function Ticker({ coins }) {
 
 
     prevCoinsRef.current = coins
+    console.log("prevCoinsRef -- ",prevCoinsRef)
+
   }, [coins])
 
   return (
     <div className="ticker">
       <div className="track" ref={trackRef}>
         {renderData.map((coin, i) => {
-          const prev = prevCoinsRef.current[i % coins.length]
+            const prev = prevCoinsRef.current[i % coins.length]
+            console.log("prev -- ",prev)
 
-          const changed =
-            prev &&
-            (prev.price !== coin.price || prev.change !== coin.change)
+            //if (coins.error){}
+            const changed =
+              prev &&
+              (prev.price !== coin.price || prev.change !== coin.change)
+            console.log("changed -- ",changed)
 
-          if (changed) {
-          }
-          const formattedChange = coin.change.startsWith("-") ? coin.change : `+${coin.change}`
+            if (changed) {
+              
+            }
+            const formattedChange = coin.change.startsWith("-") ? coin.change : `+${coin.change}`
+            console.log("formattedChange -- ",formattedChange)
 
 
-          return (
-            <div
-              className={`item ${changed ? "flash" : ""}`}
-              key={i}
-              onClick={() => {
-              console.log("🖱️ CLICK:", coin.ticker)
 
-              if (typeof window !== "undefined" && window.open) {
-                window.open(
-                  `https://finance.yahoo.com/quote/${coin.ticker}`,
-                  "_blank"
-                )
-              } else {
-                console.error("window.open não disponível")
-              }
-            }}
-            >
-              <b className="ticker-name">{coin.ticker}</b>
+            return (
+              <div
+                className={`item ${changed ? "flash" : ""}`}
+                key={i}
+                onClick={() => {
+                console.log("🖱️ CLICK:", coin.ticker)
 
-              <p className="moeda">
-                {coin.moeda}-
-              </p>
-
-              <span className="price">{coin.price}</span>
-
-              <span
-                className={`change ${
-                  coin.change.includes("-") ? "down" : "up"
-                }`}
+                if (typeof window !== "undefined" && window.open) {
+                  window.open(
+                    `https://finance.yahoo.com/quote/${coin.ticker}`,
+                    "_blank"
+                  )
+                } else {
+                  console.error("window.open não disponível")
+                }
+              }}
               >
-                {formattedChange}
-              </span>
-            </div>
+                <b className="ticker-name">{coin.ticker}</b>
+                |
+                <p className="moeda">
+                  {coin.moeda} {coin.price}
+                </p>
+
+
+                <span
+                  className={`change ${
+                    coin.change.includes("-") ? "down" : "up"
+                  }`}
+                >
+                  {formattedChange}
+                </span>
+              </div>
           )
-        })}
+        
+      
+      }
+        
+        )}
       </div>
     </div>
   )

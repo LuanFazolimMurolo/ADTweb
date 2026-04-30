@@ -4,7 +4,6 @@ import api from '../../services/api'
 import "./style.css"
 
 
-
 function parseChange(change) {
   return parseFloat(change.replace('%', ''))
 }
@@ -27,28 +26,60 @@ function HeroSection() {
 }
 
 function App() {
-  const [ativos_infinite, setAtivos_infinite] = useState([])
-  const [atualizar_infinite, setAtualizar_infinite] = useState([])
+  const [erro, setErro] = useState(null)
 
-  async function getAtivos_infinite() {
-    const tarefasFromApi = await api.get('/ativos_change')
-    setAtivos_infinite(tarefasFromApi.data.dados)
-    setAtualizar_infinite(tarefasFromApi.data.atualizado_em)
+  const [ativos_infinite, setAtivos_infinite] = useState([])
+  const [atualizar_infinite, setAtualizar_infinite] = useState(null)
+  async function getAtivos_infinite(isFirstLoad = false) {
+  try {
+
+
+    const res = await api.get('/ativos_change')
+
+    setAtivos_infinite(res.data.dados)
+    setAtualizar_infinite(res.data.atualizado_em)
+    setErro(null)
+
+  } catch (error) {
+    setErro("Erro ao carregar dados")
+
+  }
+}
+  useEffect(() => {
+  getAtivos_infinite() // 🔥 primeira vez
+
+  const interval = setInterval(() => {
+    getAtivos_infinite() // 🔥 updates
+  }, 10 * 1000)
+
+  return () => clearInterval(interval)
+}, [])
+
+  
+  console.log("--:", erro ? `❌❌❌${erro}`: "✅✅✅",ativos_infinite)
+
+  
+  let sortedCoins = []
+
+  if (erro) {
+    // erro real
+    sortedCoins = Array(20).fill({
+      ticker: "ERRO",
+      price: "--",
+      change: "0%",
+      moeda: "",
+      error: true
+    })
+
+  } else {
+    // dados reais
+    sortedCoins = [...ativos_infinite].sort((a, b) => {
+      return parseChange(b.change) - parseChange(a.change)
+    })
   }
 
-  useEffect(() => {
-    getAtivos_infinite()
+  console.log("---- SORTED:", sortedCoins)
 
-    const interval = setInterval(() => {
-      getAtivos_infinite()
-    }, 1* 60 * 1000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const sortedCoins = [...ativos_infinite].sort((a, b) => {
-    return parseChange(b.change) - parseChange(a.change)
-  })
 
   return (
     <div className="container">
@@ -57,6 +88,7 @@ function App() {
       </section>
 
       <section className="page">
+        
         <TickerSection coins={sortedCoins} />
       </section>
     </div>
